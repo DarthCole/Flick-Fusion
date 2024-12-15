@@ -1,7 +1,5 @@
 <?php
-include ("../actions/login.php");
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -121,7 +119,7 @@ include ("../actions/login.php");
 
     <!-- Login Form -->
     <div class="login-form-container">
-        <form id="login-form" method="POST" action="actions/login.php">
+        <form id="login-form" method="POST" action="../actions/login.php">
             <h2>Login</h2>
             <div class="form-group">
                 <label for="username">Username or Email</label>
