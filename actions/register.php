@@ -1,66 +1,61 @@
 <?php
-// Include database connection
-include '../db/db_connect.php';
+// Include the database configuration file
+require '../db/db_connect.php';
 
+// Initialize variables for error and success messages
+$error = '';
+$success = '';
+
+// Check if the form was submitted via POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Collect inputs and sanitize
-    $firstName = htmlspecialchars(trim($_POST['firstName']));
-    $lastName = htmlspecialchars(trim($_POST['lastName']));
-    $username = htmlspecialchars(trim($_POST['username']));
-    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    // Retrieve and sanitize inputs
+    $firstName = htmlspecialchars(trim($_POST['firstname']));
+    $lastName = htmlspecialchars(trim($_POST['lastname']));
+    $email = htmlspecialchars(trim($_POST['email']));
     $password = $_POST['password'];
-    $confirmPassword = $_POST['confirmPassword'];
+    $confirmPassword = $_POST['confirm_password'];
 
-    // Validate inputs
-    if (!preg_match("/^[a-zA-Z\s]{1,50}$/", $firstName)) {
-        echo json_encode(['success' => false, 'message' => 'Invalid first name.']);
-        exit();
-    }
-    if (!preg_match("/^[a-zA-Z\s]{1,50}$/", $lastName)) {
-        echo json_encode(['success' => false, 'message' => 'Invalid last name.']);
-        exit();
-    }
-    if (!preg_match("/^[a-zA-Z0-9_]{3,20}$/", $username)) {
-        echo json_encode(['success' => false, 'message' => 'Invalid username.']);
-        exit();
-    }
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo json_encode(['success' => false, 'message' => 'Invalid email format.']);
-        exit();
-    }
-    if ($password !== $confirmPassword) {
-        echo json_encode(['success' => false, 'message' => 'Passwords do not match.']);
-        exit();
-    }
-
-    // Restrict username length
-    if (strlen($username) > 50) {
-        echo "Error: Username too long!";
-        exit();
-    }
-    
-    // Hash password
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-    // Check if username or email already exists
-    $stmt = $conn->prepare("SELECT * FROM FFUsers WHERE username = ? OR email = ?");
-    $stmt->bind_param("ss", $username, $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($result->num_rows > 0) {
-        echo json_encode(['success' => false, 'message' => 'Username or Email already exists.']);
-        exit();
-    }
-
-    // Insert user into the database
-    $stmt = $conn->prepare("INSERT INTO FFUsers (first_name, last_name, username, email, password) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $firstName, $lastName, $username, $email, $hashedPassword);
-    if ($stmt->execute()) {
-        echo json_encode(['success' => true, 'message' => 'Registration successful!']);
+    // Basic validation for empty fields
+    if (empty($firstName) || empty($lastName) || empty($email) || empty($password) || empty($confirmPassword)) {
+        $error = 'All fields are required.';
+    } elseif ($password !== $confirmPassword) {
+        $error = 'Passwords do not match.';
     } else {
-        echo json_encode(['success' => false, 'message' => 'Database error: ' . $conn->error]);
+        // Check database connection
+        if ($conn->connect_error) {
+            $error = "Unable to connect to the database. Please try again later.";
+        } else {
+            // Check if email already exists
+            $stmt = $conn->prepare("SELECT * FROM FFUsers WHERE email = ?");
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+                $error = 'An account with this email already exists.';
+            } else {
+                // Hash the password
+                $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+                // Insert the new user into the database
+                $stmt = $conn->prepare("INSERT INTO FFUsers (first_name, last_name, username, email, password, role) VALUES (?, ?, ?, ?, ?, 2)");
+                $username = $firstName . ' ' . $lastName; // Generate a username from first and last name
+                $stmt->bind_param("sssss", $firstName, $lastName, $username, $email, $hashedPassword);
+
+                if ($stmt->execute()) {
+                    $success = 'Account created successfully!';
+                    // Redirect to the login page
+                    header("Location: ../views/login.php");
+                    exit();
+                } else {
+                    $error = 'An error occurred while creating your account. Please try again.';
+                }
+            }
+            // Close the statement
+            $stmt->close();
+        }
     }
-    $stmt->close();
+    // Close the database connection
+    $conn->close();
 }
-$conn->close();
 ?>

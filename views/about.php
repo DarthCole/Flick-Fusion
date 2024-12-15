@@ -208,8 +208,8 @@ include ("../db/db_connect.php");
             <ul class="nav-links">
                 <li><a href="../index.html">Home</a></li>
                 <li><a href="#">Search</a></li>
-                <li><a href="../actions/login.php">Login</a></li>
-                <li><a href="../actions/register.php">Sign Up</a></li>
+                <li><a href="./login.php">Login</a></li>
+                <li><a href="./register.php">Sign Up</a></li>
             </ul>
         </div>
     </nav>
