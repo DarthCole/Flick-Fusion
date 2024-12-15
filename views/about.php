@@ -1,6 +1,7 @@
 <?php
-include("../db/db_connect.php");
+include ("../db/db_connect.php");
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -207,8 +208,8 @@ include("../db/db_connect.php");
             <ul class="nav-links">
                 <li><a href="../index.html">Home</a></li>
                 <li><a href="#">Search</a></li>
-                <li><a href="login.php">Login</a></li>
-                <li><a href="register.php">Sign Up</a></li>
+                <li><a href="../actions/login.php">Login</a></li>
+                <li><a href="../actions/register.php">Sign Up</a></li>
             </ul>
         </div>
     </nav>
@@ -216,7 +217,7 @@ include("../db/db_connect.php");
     <!-- Hero Section -->
     <section class="hero-section">
         <video autoplay muted loop>
-            <source src="https://videos.pexels.com/video-files/7322219/7322219-uhd_2732_1440_25fps.mp4" type="video/mp4">
+            <source src="https://videos.pexels.com/video-files/7233537/7233537-uhd_2560_1080_25fps.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         <div class="hero-content">
