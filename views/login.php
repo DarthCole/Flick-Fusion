@@ -109,7 +109,7 @@
             <a href="index.html" class="logo">Flick Fusion</a>
             <ul class="nav-links">
                 <li><a href="../index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
+                <li><a href="about.php">About</a></li>
                 <li><a href="register.html">Sign Up</a></li>
             </ul>
         </div>
