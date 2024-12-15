@@ -92,7 +92,7 @@
             <li><a href="admin_movies.html">Movies</a></li>
             <li><a href="admin_users.html">Users</a></li>
             <li><a href="admin_collections.html">Collections</a></li>
-            <li><a href="../views/login.html">Logout</a></li>
+            <li><a href="../views/login.php">Logout</a></li>
         </ul>
     </nav>
 

@@ -1,3 +1,7 @@
+<?php
+require_once("../actions/register.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -109,8 +113,8 @@
         <nav>
             <ul>
                 <li><a href="../index.html">Home</a></li>
-                <li><a href="login.html">Login</a></li>
-                <li><a href="register.html">Sign Up</a></li>
+                <li><a href="login.php">Login</a></li>
+                <li><a href="register.php">Sign Up</a></li>
             </ul>
         </nav>
     </header>

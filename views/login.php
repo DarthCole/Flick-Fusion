@@ -1,3 +1,6 @@
+<?php
+require_once("../actions/login.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -110,7 +113,7 @@
             <ul class="nav-links">
                 <li><a href="../index.html">Home</a></li>
                 <li><a href="about.php">About</a></li>
-                <li><a href="register.html">Sign Up</a></li>
+                <li><a href="register.php">Sign Up</a></li>
             </ul>
         </div>
     </nav>    
@@ -128,7 +131,7 @@
                 <input type="password" id="password" name="password" required>
             </div>
             <button type="submit" class="btn">Login</button>
-            <p>Don't have an account? <a href="register.html">Sign up here</a></p>
+            <p>Don't have an account? <a href="register.php">Sign up here</a></p>
             <p id="error-message" class="error-message"></p>
         </form>
     </div>

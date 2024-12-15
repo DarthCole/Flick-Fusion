@@ -51,7 +51,7 @@ document.getElementById("signUpForm").addEventListener("submit", function (event
             const response = JSON.parse(xhr.responseText);
             if (response.success) {
                 alert(response.message);
-                window.location.href = "login.html"; // Redirect to login page
+                window.location.href = "login.php"; // Redirect to login page
             } else {
                 document.getElementById("error-message").textContent = response.message;
             }

@@ -204,8 +204,8 @@
             <ul class="nav-links">
                 <li><a href="../index.html">Home</a></li>
                 <li><a href="#">Search</a></li>
-                <li><a href="login.html">Login</a></li>
-                <li><a href="register.html">Sign Up</a></li>
+                <li><a href="login.php">Login</a></li>
+                <li><a href="register.php">Sign Up</a></li>
             </ul>
         </div>
     </nav>
@@ -220,7 +220,7 @@
             <h1>About Flick Fusion</h1>
             <p>A vibrant online community for movie lovers to connect, share, and explore the magic of cinema.</p>
             <div class="cta">
-                <a href="register.html">Join Now</a>
+                <a href="register.php">Join Now</a>
                 <a href="search.html">Explore Movies</a>
             </div>
         </div>
