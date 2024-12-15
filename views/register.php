@@ -1,5 +1,5 @@
 <?php
-require_once("../actions/register.php");
+include ("../actions/register.php");
 ?>
 
 <!DOCTYPE html>

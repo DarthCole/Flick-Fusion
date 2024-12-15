@@ -1,5 +1,5 @@
 <?php
-require_once("../actions/login.php");
+include ("../actions/login.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">

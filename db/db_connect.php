@@ -14,9 +14,6 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Optional: Test the connection (you can remove this later)
-echo "Connected successfully to the database";
-
 // Close the connection after use (not required unless you want to close manually)
 $conn->close();
 ?>
