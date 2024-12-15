@@ -29,7 +29,7 @@ CREATE TABLE FFUsers (
     username VARCHAR(50) NOT NULL UNIQUE,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    profile_picture VARCHAR(255) NULL,
+    profile_picture LONGBLOB NULL, 
     bio TEXT NULL,
     role INT NOT NULL DEFAULT 2,  -- Default to 'Registered User'
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -50,8 +50,7 @@ CREATE TABLE Movies (
     release_year INT NOT NULL,
     genre_id INT,
     description TEXT NULL,
-    poster_url VARCHAR(255) NOT NULL,
-    trailer_url VARCHAR(255) NULL,
+    poster LONGBLOB NOT NULL, 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (genre_id) REFERENCES Genres(genre_id) ON DELETE SET NULL
 );
@@ -88,4 +87,8 @@ CREATE TABLE Follows (
     FOREIGN KEY (follower_id) REFERENCES FFUsers(user_id) ON DELETE CASCADE,
     FOREIGN KEY (followed_id) REFERENCES FFUsers(user_id) ON DELETE CASCADE
 );
-~~
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+COMMIT;

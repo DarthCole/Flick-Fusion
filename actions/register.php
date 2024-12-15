@@ -1,6 +1,6 @@
 <?php
 // Include database connection
-include '../db/connect.php';
+include '../db/db_connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Collect inputs and sanitize
