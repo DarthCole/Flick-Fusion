@@ -33,6 +33,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
+    // Restrict username length
+    if (strlen($username) > 50) {
+        echo "Error: Username too long!";
+        exit();
+    }
+    
     // Hash password
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
