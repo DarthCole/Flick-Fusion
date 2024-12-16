@@ -1,21 +1,20 @@
 <?php
 // Database connection settings
-$servername = "localhost";  // Typically 'localhost' on a local server
-$username = "root";         // Default XAMPP MySQL username
-$password = "";             // Default XAMPP MySQL password (empty by default)
-$dbname = "flick fusion";   // Name of your database
+$servername = "localhost"; // Typically 'localhost' for local development
+$username = "root";        // Default XAMPP MySQL username
+$password = "";            // Default XAMPP MySQL password
+$dbname = "flick_fusion";  // Name of your database (fixed the space issue)
 
-// Create connection
+// Create a connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
 if ($conn->connect_error) {
-    // If there's a connection error, output the error message
-    die("Connection failed: " . $conn->connect_error);
-} else {
-    echo "Connection successful";
+    // Log error and stop execution
+    error_log("Connection failed: " . $conn->connect_error); // Log error for debugging
+    die("Database connection failed. Please try again later.");
 }
 
-// Close the connection after use (not required unless you want to close manually)
-$conn->close();
+// Uncomment the line below for debugging purposes only
+// echo "Connection successful";
 ?>
