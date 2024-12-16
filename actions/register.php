@@ -13,19 +13,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit(); // Stop further processing to focus on the output
 
     // Retrieve and sanitize inputs
-    $firstName = htmlspecialchars(trim($_POST['firstname']));
-    $lastName = htmlspecialchars(trim($_POST['lastname']));
+    $firstname = htmlspecialchars(trim($_POST['firstname']));
+    $lastname = htmlspecialchars(trim($_POST['lastname']));
     $username = htmlspecialchars(trim($_POST['username']));
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $password = $_POST['password'];
-    $confirmPassword = $_POST['confirm_password'];
+    $confirm_password = $_POST['confirm_password'];
 
     // Input validation
-    if (empty($firstName) || empty($lastName) || empty($username) || empty($email) || empty($password) || empty($confirmPassword)) {
+    if (empty($firstname) || empty($lastname) || empty($username) || empty($email) || empty($password) || empty($confirm_password)) {
         $response['message'] = 'All fields are required.';
-    } elseif (!preg_match("/^[a-zA-Z\s]{1,50}$/", $firstName)) {
+    } elseif (!preg_match("/^[a-zA-Z\s]{1,50}$/", $firstname)) {
         $response['message'] = 'Invalid first name.';
-    } elseif (!preg_match("/^[a-zA-Z\s]{1,50}$/", $lastName)) {
+    } elseif (!preg_match("/^[a-zA-Z\s]{1,50}$/", $lastname)) {
         $response['message'] = 'Invalid last name.';
     } elseif (!preg_match("/^[a-zA-Z0-9_]{3,20}$/", $username)) {
         $response['message'] = 'Invalid username.';
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $response['message'] = 'Invalid email format.';
     } elseif (strlen($password) < 8) {
         $response['message'] = 'Password must be at least 8 characters long.';
-    } elseif ($password !== $confirmPassword) {
+    } elseif ($password !== $confirm_password) {
         $response['message'] = 'Passwords do not match.';
     } else {
         try {
@@ -50,6 +50,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 // Hash the password
                 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+                // Verifying the database in use
+                echo 'Using database: ' . $conn->query("SELECT DATABASE()")->fetch_row()[0];
+                exit;
 
                 // Insert the new user into the database
                 $stmt = $conn->prepare("INSERT INTO FFUsers (username, email, password, role) VALUES (?, ?, ?, 2)");

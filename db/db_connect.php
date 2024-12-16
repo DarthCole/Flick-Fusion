@@ -3,7 +3,7 @@
 $servername = "localhost";  // Typically 'localhost' on a local server
 $username = "root";         // Default XAMPP MySQL username
 $password = "";             // Default XAMPP MySQL password (empty by default)
-$dbname = "flick_fusion";   // Name of your database
+$dbname = "flick fusion";   // Name of your database
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);

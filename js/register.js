@@ -2,12 +2,12 @@ document.getElementById("signUpForm").addEventListener("submit", function (event
     event.preventDefault();
 
     // Retrieve form values
-    const firstName = document.getElementById("firstName").value.trim();
-    const lastName = document.getElementById("lastName").value.trim();
+    const firstname = document.getElementById("firstname").value.trim();
+    const lastname = document.getElementById("lastname").value.trim();
     const username = document.getElementById("username").value.trim();
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirmPassword").value;
+    const confirm_password = document.getElementById("confirm_password").value;
 
     // Regex validation
     const nameRegex = /^[a-zA-Z\s]{1,50}$/;
@@ -15,11 +15,11 @@ document.getElementById("signUpForm").addEventListener("submit", function (event
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
 
-    if (!nameRegex.test(firstName)) {
+    if (!nameRegex.test(firstname)) {
         document.getElementById("error-message").textContent = "Invalid first name.";
         return;
     }
-    if (!nameRegex.test(lastName)) {
+    if (!nameRegex.test(lastname)) {
         document.getElementById("error-message").textContent = "Invalid last name.";
         return;
     }
@@ -36,7 +36,7 @@ document.getElementById("signUpForm").addEventListener("submit", function (event
             "Password must be 6-20 characters and include at least one number, one lowercase, and one uppercase letter.";
         return;
     }
-    if (password !== confirmPassword) {
+    if (password !== confirm_password) {
         document.getElementById("error-message").textContent = "Passwords do not match.";
         return;
     }
@@ -58,6 +58,6 @@ document.getElementById("signUpForm").addEventListener("submit", function (event
         }
     };
 
-    const data = `firstName=${encodeURIComponent(firstName)}&lastName=${encodeURIComponent(lastName)}&username=${encodeURIComponent(username)}&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
+    const data = `firstname=${encodeURIComponent(firstname)}&lastname=${encodeURIComponent(lastname)}&username=${encodeURIComponent(username)}&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
     xhr.send(data);
 });

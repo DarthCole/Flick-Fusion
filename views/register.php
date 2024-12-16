@@ -1,7 +1,5 @@
 <?php
-include '../actions/register.php';
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -122,11 +120,11 @@ include '../actions/register.php';
         <div class="form-container">
             <h2>Sign Up</h2>
             <form id="signUpForm" method="POST" action="../actions/register.php">
-                <label for="firstName">First Name</label>
-                <input type="text" name="firstName" id="firstName" required>
+                <label for="firstname">First Name</label>
+                <input type="text" name="firstname" id="firstname" required>
 
-                <label for="lastName">Last Name</label>
-                <input type="text" name="lastName" id="lastName" required>
+                <label for="lastname">Last Name</label>
+                <input type="text" name="lastname" id="lastname" required>
 
                 <label for="username">Username</label>
                 <input type="text" name="username" id="username" required>
@@ -137,8 +135,8 @@ include '../actions/register.php';
                 <label for="password">Password</label>
                 <input type="password" name="password" id="password" required>
 
-                <label for="confirmPassword">Confirm Password</label>
-                <input type="password" name="confirmPassword" id="confirmPassword" required>
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" name="confirm_password" id="confirm_password" required>
 
                 <button type="submit">Sign Up</button>
                 <div class="error-message" id="error-message"></div>
