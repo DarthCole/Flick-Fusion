@@ -52,7 +52,7 @@ CREATE TABLE Movies (
     description TEXT NULL,                           -- Optional movie description
     poster LONGBLOB NOT NULL,                        -- Movie poster image
     director VARCHAR(100) NOT NULL,                  -- Name of the director
-    rating ENUM('U', 'PG', 'PG13', 'PG16','16+', '18+', 'R', 'R16', 'R18', 'R21' 'M', 'NC17', 'NR',) NOT NULL DEFAULT 'NR', -- Rating
+    rating ENUM('U', 'PG', 'PG13', 'PG16','16+', '18+', 'R', 'R16', 'R18', 'R21', 'M', 'NC17', 'NR') NOT NULL DEFAULT 'NR', -- Rating
     duration INT NOT NULL COMMENT 'Duration in minutes', -- Movie length in minutes
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Timestamp when record was created
     FOREIGN KEY (genre_id) REFERENCES Genres(genre_id) ON DELETE SET NULL
