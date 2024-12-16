@@ -1,5 +1,5 @@
 <?php
-include '../db/db_connect.php';
+require '../db/db_connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = intval($_POST['user_id']);

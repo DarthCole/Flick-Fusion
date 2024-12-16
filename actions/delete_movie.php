@@ -1,5 +1,5 @@
 <?php
-include '../db/db_connect.php';
+require '../db/db_connect.php';
 
 if (isset($_GET['movie_id'])) {
     $movie_id = intval($_GET['movie_id']);

@@ -1,5 +1,5 @@
 <?php
-include '../db/db_connect.php';
+require '../db/db_connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $movie_id = intval($_POST['movie_id']);

@@ -1,5 +1,5 @@
 <?php
-include '../db/db_connect.php';
+require '../db/db_connect.php';
 
 if (isset($_GET['collection_id'])) {
     $collection_id = intval($_GET['collection_id']);

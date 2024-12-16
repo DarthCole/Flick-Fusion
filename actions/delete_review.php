@@ -1,5 +1,5 @@
 <?php
-include '../db/db_connect.php';
+require '../db/db_connect.php';
 
 // Delete review
 if (isset($_GET['review_id'])) {
