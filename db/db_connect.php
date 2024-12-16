@@ -12,6 +12,8 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     // If there's a connection error, output the error message
     die("Connection failed: " . $conn->connect_error);
+} else {
+    echo "Connection successful";
 }
 
 // Close the connection after use (not required unless you want to close manually)

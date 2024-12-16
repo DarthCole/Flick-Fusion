@@ -103,7 +103,6 @@
             text-align: center;
         }
     </style>
-    <script src="../js/signup.js" defer></script>
 </head>
 <body>
     <header>
@@ -139,12 +138,11 @@
                 <label for="confirmPassword">Confirm Password</label>
                 <input type="password" name="confirmPassword" id="confirmPassword" required>
 
-                <button type="submit" class="btn">Sign Up</button>
-                <p class="toggle-link">
-                    Already have an account? <a href="login.php">Login</a>
-                </p>
+                <button type="submit">Sign Up</button>
+                <div class="error-message" id="error-message"></div>
             </form>
         </div>
     </div>
+    <script src="../js/signup.js" defer></script>
 </body>
 </html>

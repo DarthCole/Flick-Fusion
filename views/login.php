@@ -102,7 +102,6 @@
         }
     </style>
     
-    <script src="../js/login.js" defer></script>
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -134,5 +133,6 @@
             <p id="error-message" class="error-message"></p>
         </form>
     </div>
+    <script src="../js/login.js" defer></script>
 </body>
 </html>

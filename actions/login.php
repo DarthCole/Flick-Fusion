@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../db/db_connect.php';
+require '../db/db_connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Input sanitization and validation
