@@ -46,14 +46,18 @@ CREATE TABLE Genres (
 -- Create the Movies table
 CREATE TABLE Movies (
     movie_id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    release_year INT NOT NULL,
-    genre_id INT,
-    description TEXT NULL,
-    poster LONGBLOB NOT NULL, 
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    title VARCHAR(255) NOT NULL,                     -- Title of the movie
+    release_year INT NOT NULL,                       -- Year of release
+    genre_id INT,                                    -- Reference to Genres table
+    description TEXT NULL,                           -- Optional movie description
+    poster LONGBLOB NOT NULL,                        -- Movie poster image
+    director VARCHAR(100) NOT NULL,                  -- Name of the director
+    rating ENUM('U', 'PG', 'PG13', 'PG16','16+', '18+', 'R', 'R16', 'R18', 'R21' 'M', 'NC17', 'NR',) NOT NULL DEFAULT 'NR', -- Rating
+    duration INT NOT NULL COMMENT 'Duration in minutes', -- Movie length in minutes
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Timestamp when record was created
     FOREIGN KEY (genre_id) REFERENCES Genres(genre_id) ON DELETE SET NULL
 );
+
 
 -- Create the Reviews table
 CREATE TABLE Reviews (
