@@ -1,3 +1,11 @@
+<?php
+session_start();
+// Check if user is already logged in
+if (isset($_SESSION['user_id'])) {
+    header("Location: views/user-dashboard.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +22,7 @@
             font-family: Arial, sans-serif;
             background-color: #121212;
             color: #fff;
+            min-height: 100vh;
         }
 
         a {
@@ -21,27 +30,49 @@
             color: #f39c12;
         }
 
+        /* Navbar Styles */
         header {
+            background-color: #333;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px;
-            background-color: #1f1f1f;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
         }
 
         header .logo {
-            font-size: 24px;
+            color: #f39c12;
+            font-size: 1.5rem;
             font-weight: bold;
+            text-decoration: none;
+            letter-spacing: 1px;
         }
 
         header nav ul {
-            list-style: none;
             display: flex;
-            gap: 15px;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
         }
 
-        header nav ul li {
-            display: inline;
+        header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+        header nav ul li a:hover {
+            color: #f39c12;
+            background-color: rgba(243, 156, 18, 0.1);
         }
 
         /* Hero Video */
@@ -51,33 +82,30 @@
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Ensures video fits without distortion */
-            z-index: -1; /* Keeps the video in the background */
+            object-fit: cover;
+            z-index: -1;
         }
 
-        /* Main Overlay */
-        .main {
-            position: relative; /* Allows content to overlay the video */
-            z-index: 1; /* Ensures text and other content appear above the video */
-            color: #fff; /* Keeps text visible */
-            padding: 20px;
-        }
-
-        .main h1, .main h2, .main p {
-            color: #fff;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8); /* Adds contrast for readability */
+        /* Main Content Padding */
+        .main-overlay {
+            padding-top: 80px;
+            position: relative;
+            z-index: 1;
         }
 
         /* Hero Section */
         .hero {
             text-align: center;
             padding: 100px 20px;
+            background-color: rgba(0, 0, 0, 0.6);
+            position: relative;
+            z-index: 2;
         }
 
         .hero h1 {
             font-size: 48px;
             margin-bottom: 20px;
-            z-index: 1; /* Content above video */
+            z-index: 1;
         }
 
         .hero p {
@@ -86,32 +114,35 @@
             z-index: 1;
         }
 
-        .hero .cta-buttons a {
-            padding: 10px 20px;
-            margin: 0 10px;
-            font-size: 18px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-            text-decoration: none;
+        .hero .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #f39c12;
             color: #fff;
-            z-index: 1;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            margin: 0 10px;
         }
 
-        .hero .btn {
-            background-color: #f39c12;
+        .hero .btn:hover {
+            background-color: #e67e22;
         }
 
         .hero .btn-secondary {
             background-color: #555;
         }
 
+        .hero .btn-secondary:hover {
+            background-color: #666;
+        }
+
         /* Features Section */
         .features {
             padding: 50px 20px;
             text-align: center;
-            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
-            border-radius: 10px; /* Soft corners */
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
             margin: 20px auto;
             max-width: 800px;
         }
@@ -128,14 +159,14 @@
 
         .feature-item {
             padding: 20px;
-            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent */
+            background-color: rgba(255, 255, 255, 0.1);
             border-radius: 5px;
         }
 
         /* Trending Section */
         .trending {
             padding: 50px 20px;
-            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+            background-color: rgba(0, 0, 0, 0.6);
             border-radius: 10px;
             margin: 20px auto;
             max-width: 800px;
@@ -154,7 +185,7 @@
 
         .movie-card {
             text-align: center;
-            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent */
+            background-color: rgba(255, 255, 255, 0.1);
             padding: 10px;
             border-radius: 5px;
         }
@@ -180,11 +211,10 @@
 </head>
 <body>
     <header>
-        <div class="logo">Flick Fusion</div>
+        <a href="index.php" class="logo">Flick Fusion</a>
         <nav>
             <ul>
-                <li><a href="views/about.php">About</a></li>
-                <li><a href="#">Search</a></li>
+                <li><a href="views/user-dashboard.php">Explore</a></li>
                 <li><a href="views/login.php">Login</a></li>
                 <li><a href="views/register.php">Sign Up</a></li>
             </ul>
@@ -200,59 +230,37 @@
             <h1>Welcome to Flick Fusion</h1>
             <p>Connect with movie lovers, create collections, and share your cinematic journey!</p>
             <div class="cta-buttons">
-                <a href="views/register.php" class="btn">Join The Community</a>
-                <a href="#" class="btn-secondary">Explore Collections</a>
+                <a href="views/register.php" class="btn">Get Started</a>
+                <a href="views/login.php" class="btn btn-secondary">Login</a>
             </div>
         </section>
     
-        <!-- Features Overview -->
+        <!-- Features Section -->
         <section class="features">
-            <h2>Why Flick Fusion?</h2>
+            <h2>Features</h2>
             <div class="features-grid">
                 <div class="feature-item">
                     <h3>Create Collections</h3>
-                    <p>Keep track of your favorite films and share your opinions.</p>
+                    <p>Organize your favorite movies into personalized collections.</p>
                 </div>
                 <div class="feature-item">
-                    <h3>Rate & Review</h3>
-                    <p>Write reviews and rate movies to share your thoughts.</p>
+                    <h3>Share Reviews</h3>
+                    <p>Share your thoughts and read reviews from other movie enthusiasts.</p>
                 </div>
                 <div class="feature-item">
-                    <h3>Discover New Films</h3>
-                    <p>Search and filter movies based on your preferences.</p>
+                    <h3>Discover Movies</h3>
+                    <p>Explore new films and get personalized recommendations.</p>
                 </div>
                 <div class="feature-item">
-                    <h3>Follow Movie Lovers</h3>
-                    <p>Stay updated with other users' collections and reviews.</p>
-                </div>
-            </div>
-        </section>
-        <!-- Trending Movies -->
-        <section class="trending">
-            <h2>Trending Movies</h2>
-            <div class="movie-grid">
-                <div class="movie-card">
-                    <img src="assets/static/the_platform_2.jpeg" alt="Movie Poster">
-                    <p>The Platform 2</p>
-                </div>
-                <div class="movie-card">
-                    <img src="assets/static/jumanji_the_next_level.jpeg" alt="Movie Poster">
-                    <p>Jumaji: The Next Level</p>
-                </div>
-                <div class="movie-card">
-                    <img src="assets/static/venom_let_there_be_carnage.jpeg" alt="Movie Poster">
-                    <p>Venom: Let There Be Carange</p>
-                </div>
-                <div class="movie-card">
-                    <img src="assets/static/beyond_the_wire.jpeg" alt="Movie Poster">
-                    <p>Beyond The Wire</p>
+                    <h3>Connect with Others</h3>
+                    <p>Join a community of passionate movie lovers.</p>
                 </div>
             </div>
         </section>
     </main>
     
     <footer>
-        <p>© 2024 Film Fan Club. All Rights Reserved.</p>
+        <p>&copy; <?php echo date('Y'); ?> Film Fan Club. All Rights Reserved.</p>
         <p><a href="#">Privacy Policy</a> | <a href="#">Contact Us</a></p>
     </footer>
 </body>

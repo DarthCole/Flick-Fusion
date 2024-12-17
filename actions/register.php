@@ -8,10 +8,6 @@ $response = ['success' => false, 'message' => ''];
 // Check if the form is submitted via POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // Debugging: Display submitted form data
-    var_dump($_POST); 
-    exit(); // Stop further processing to focus on the output
-
     // Retrieve and sanitize inputs
     $firstname = htmlspecialchars(trim($_POST['firstname']));
     $lastname = htmlspecialchars(trim($_POST['lastname']));
@@ -38,40 +34,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         try {
             // Check if username or email already exists
-            $checkQuery = $conn->prepare("SELECT * FROM FFUsers WHERE username = ? OR email = ?");
-            $checkQuery->bind_param("ss", $username, $email);
-            $checkQuery->execute();
-            if ($checkQuery->get_result()->num_rows > 0) {
-                die('Error: This username or email is already in use');
-            }
-
+            $stmt = $conn->prepare("SELECT * FROM FFUsers WHERE username = ? OR email = ?");
+            $stmt->bind_param("ss", $username, $email);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
             if ($result->num_rows > 0) {
                 $response['message'] = 'An account with this username or email already exists.';
             } else {
                 // Hash the password
                 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-                // Verifying the database in use
-                echo 'Using database: ' . $conn->query("SELECT DATABASE()")->fetch_row()[0];
-                exit;
-
                 // Insert the new user into the database
                 $stmt = $conn->prepare("INSERT INTO FFUsers (username, email, password, role) VALUES (?, ?, ?, 2)");
                 $stmt->bind_param("sss", $username, $email, $hashedPassword);
 
-                if ($insertQuery->execute()) {
-                    echo 'Data inserted successfully';
-                    header("Location: ../views/home.php");
-                    exit();
-                } else {
-                    die('Error inserting data: ' . $insertQuery->error);
-                }
-
                 if ($stmt->execute()) {
                     $response['success'] = true;
-                    $response['message'] = 'Account created successfully! Redirecting...';
+                    $response['message'] = 'Registration successful!';
+                    // Redirect to login page
+                    header("Location: ../views/login.php");
+                    exit();
                 } else {
-                    $response['message'] = 'An error occurred while creating your account. Please try again.';
+                    $response['message'] = 'Error registering user: ' . $stmt->error;
                 }
             }
         } catch (Exception $e) {

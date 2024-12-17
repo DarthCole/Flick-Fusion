@@ -1,3 +1,27 @@
+<?php
+session_start();
+require_once '../db/db_connect.php';
+
+// Check if user is logged in and is an admin
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Check if user has admin role (role = 1)
+$user_id = $_SESSION['user_id'];
+$admin_check_query = "SELECT role FROM FFUsers WHERE user_id = ?";
+$stmt = $conn->prepare($admin_check_query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+
+if (!$user || $user['role'] != 1) {
+    header("Location: user-dashboard.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -86,13 +110,13 @@
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar">
-        <a href="#" class="logo">Dashboard</a>
+        <a href="#" class="logo">Admin Dashboard</a>
         <ul class="nav-links">
-            <li><a href="admin_reviews.html">Reviews</a></li>
-            <li><a href="admin_movies.html">Movies</a></li>
-            <li><a href="admin_users.html">Users</a></li>
-            <li><a href="admin_collections.html">Collections</a></li>
-            <li><a href="../views/login.php">Logout</a></li>
+            <li><a href="admin_reviews.php">Reviews</a></li>
+            <li><a href="admin_movies.php">Movies</a></li>
+            <li><a href="admin_users.php">Users</a></li>
+            <li><a href="admin_collections.php">Collections</a></li>
+            <li><a href="../actions/logout.php">Logout</a></li>
         </ul>
     </nav>
 
@@ -117,7 +141,7 @@
 
     <script>
         // Fetch data for User Growth
-        fetch('actions/get_user_growth.php')
+        fetch('../actions/get_user_growth.php')
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -132,51 +156,74 @@
                             datasets: [{
                                 label: 'New Users',
                                 data: counts,
-                                backgroundColor: 'rgba(243, 156, 18, 0.2)',
                                 borderColor: '#f39c12',
-                                borderWidth: 1
+                                tension: 0.1
                             }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    labels: {
+                                        color: '#fff'
+                                    }
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    ticks: {
+                                        color: '#fff'
+                                    },
+                                    grid: {
+                                        color: '#333'
+                                    }
+                                },
+                                x: {
+                                    ticks: {
+                                        color: '#fff'
+                                    },
+                                    grid: {
+                                        color: '#333'
+                                    }
+                                }
+                            }
                         }
                     });
                 }
             });
 
         // Fetch data for Active Users
-        fetch('actions/get_active_users.php')
+        fetch('../actions/get_active_users.php')
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    const list = document.getElementById('activeUsersList');
-                    data.data.forEach(user => {
-                        const li = document.createElement('li');
-                        li.textContent = `${user.username} - Reviews: ${user.review_count}, Collections: ${user.collection_count}`;
-                        list.appendChild(li);
-                    });
+                    const activeUsersList = document.getElementById('activeUsersList');
+                    activeUsersList.innerHTML = data.data.map(user => 
+                        `<li>${user.username} - ${user.activity_count} activities</li>`
+                    ).join('');
                 }
             });
 
         // Fetch data for Popular Movies
-        fetch('actions/get_popular_movies.php')
+        fetch('../actions/get_popular_movies.php')
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    const list = document.getElementById('popularMoviesList');
-                    data.data.forEach(movie => {
-                        const li = document.createElement('li');
-                        li.textContent = `${movie.title} - Reviews: ${movie.review_count}`;
-                        list.appendChild(li);
-                    });
+                    const popularMoviesList = document.getElementById('popularMoviesList');
+                    popularMoviesList.innerHTML = data.data.map(movie => 
+                        `<li>${movie.title} - ${movie.view_count} views</li>`
+                    ).join('');
                 }
             });
 
-        // Fetch data for Highest Rated Movie of the Week
-        fetch('actions/get_highest_rated_movie.php')
+        // Fetch data for Highest Rated Movie
+        fetch('../actions/get_highest_rated_movie.php')
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    const highestRatedMovie = document.getElementById('highestRatedMovie');
                     const movie = data.data;
-                    const element = document.getElementById('highestRatedMovie');
-                    element.textContent = `${movie.title} - Average Rating: ${movie.average_rating} (${movie.review_count} reviews)`;
+                    highestRatedMovie.innerHTML = `${movie.title} - Rating: ${movie.average_rating}/5`;
                 }
             });
     </script>
