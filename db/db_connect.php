@@ -3,7 +3,7 @@
 $servername = "localhost"; // Typically 'localhost' for local development
 $username = "root";        // Default XAMPP MySQL username
 $password = "";            // Default XAMPP MySQL password
-$dbname = "flick_fusion";  // Name of your database (fixed the space issue)
+$dbname = "flick_fusion";  // Name of the database given to me by the school (fixed the space issue)
 
 // Create a connection
 $conn = new mysqli($servername, $username, $password, $dbname);

@@ -35,7 +35,7 @@ if (isset($_GET['movie_id'])) {
     $movie = $stmt->get_result()->fetch_assoc();
 
     if (!$movie) {
-        header("Location: ../views/movies.php");
+        header("Location: ../views/admin_movies.php");
         exit();
     }
 
